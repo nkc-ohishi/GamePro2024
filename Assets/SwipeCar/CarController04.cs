@@ -11,7 +11,7 @@ using UnityEngine;
 // クラス名：CarControllerクラス
 // 機能　　：車オブジェクトの制御を行う
 //----------------------------------------------------------------------------
-public class CarController : MonoBehaviour
+public class CarController04 : MonoBehaviour
 {
     // クラスのメンバ変数（クラス内に定義されたメソッドすべてで利用できる変数）
     float speed = 0;    
@@ -62,7 +62,7 @@ public class CarController : MonoBehaviour
             carSe.Play();
 
             // ゲームプレイフラグをONにする
-            GameDirector.isPlaying = true;
+            GameDirector04.isPlaying = true;
         }
 
         // Ｘ軸方向に、speedの値だけ移動させる

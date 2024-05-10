@@ -8,12 +8,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 //----------------------------------------------------------------------------
 // クラス名：GameDirectorクラス
 // 機能　　：ゲームシーン共通の処理
 //----------------------------------------------------------------------------
-public class GameDirector : MonoBehaviour
+public class GameDirector04 : MonoBehaviour
 {
     // クラスのメンバ変数
     GameObject car;
@@ -69,7 +70,6 @@ public class GameDirector : MonoBehaviour
             // 車と旗の距離が０未満（車が旗の左にいる）の時の処理
             textMeshPro.text = "GameOver";
             text.text = "失敗！！";
-            isPlaying = false;
         }
 
         // 
@@ -78,6 +78,12 @@ public class GameDirector : MonoBehaviour
             if (length >= 0 && length < 0.5f)
             {
                 text.text = "成功！！";
+            }
+
+            // Enterキーでシーンを再読み込み
+            if(Input.GetKeyDown(KeyCode.Return))
+            {
+                SceneManager.LoadScene(0);
             }
         }
 
