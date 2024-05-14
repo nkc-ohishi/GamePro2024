@@ -14,7 +14,7 @@ using UnityEngine;
 public class CarController04 : MonoBehaviour
 {
     // クラスのメンバ変数（クラス内に定義されたメソッドすべてで利用できる変数）
-    float speed = 0;    
+    public static float speed = 0;    
     Vector2 startPos;
     AudioSource carSe;
 
@@ -30,6 +30,9 @@ public class CarController04 : MonoBehaviour
 
         // AudioSourceコンポーネントの情報をcarSe変数に保存
         carSe = GetComponent<AudioSource>();
+
+        // スピード０
+        speed = 0;
     }
 
     //------------------------------------------------------------------------
@@ -39,8 +42,17 @@ public class CarController04 : MonoBehaviour
     //------------------------------------------------------------------------
     void Update()
     {
+        // Ｘ軸方向に、speedの値だけ移動させる
+        transform.Translate(speed, 0, 0);
+
+        // speedの変数の値を徐々に減らしていく
+        speed *= 0.98f;
+
+        // プレイ中は車を操作できないようにする
+        if (GameDirector04.isPlaying) return;
+
         // マウスの左ボタンが１回押されたときの処理
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             // speed = 0.2f;
 
@@ -64,12 +76,6 @@ public class CarController04 : MonoBehaviour
             // ゲームプレイフラグをONにする
             GameDirector04.isPlaying = true;
         }
-
-        // Ｘ軸方向に、speedの値だけ移動させる
-        transform.Translate(speed, 0, 0);
-
-        // speedの変数の値を徐々に減らしていく
-        speed *= 0.98f;
     }
 
 }

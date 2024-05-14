@@ -24,6 +24,10 @@ public class GameDirector04 : MonoBehaviour
 
     public static bool isPlaying;
 
+    public AudioSource maruAudioSource;
+    public AudioSource batuAudioSource;
+    bool resultSeflg;
+
     //------------------------------------------------------------------------
     // メソッド名：Startメソッド
     //------------------------------------------------------------------------
@@ -40,6 +44,8 @@ public class GameDirector04 : MonoBehaviour
         // ゲーム中かどうかのスイッチ
         isPlaying = false;
 
+        // 判定効果音の再生フラグ
+        resultSeflg = true;
     }
 
     //------------------------------------------------------------------------
@@ -70,23 +76,41 @@ public class GameDirector04 : MonoBehaviour
             // 車と旗の距離が０未満（車が旗の左にいる）の時の処理
             textMeshPro.text = "GameOver";
             text.text = "失敗！！";
+            if (resultSeflg)
+            {
+                batuAudioSource.Play();
+                resultSeflg = false;
+            }
         }
 
-        // 
-        if (isPlaying)
+        // プレイフラグがONかつ 車のスピードが0.01未満（ほぼ停止）
+        if (isPlaying && CarController04.speed < 0.0001f)
         {
             if (length >= 0 && length < 0.5f)
             {
                 text.text = "成功！！";
+                if (resultSeflg)
+                {
+                    maruAudioSource.Play();
+                    resultSeflg = false;
+                }
             }
-
-            // Enterキーでシーンを再読み込み
-            if(Input.GetKeyDown(KeyCode.Return))
+            else
             {
-                SceneManager.LoadScene(0);
+                text.text = "失敗！！";
+                if (resultSeflg)
+                {
+                    batuAudioSource.Play();
+                    resultSeflg = false;
+                }
             }
         }
 
+        // Enterキーでシーンを再読み込み
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene("GameScene");
+        }
 
 
 
