@@ -53,7 +53,6 @@ public class GameDirector04 : MonoBehaviour
     //------------------------------------------------------------------------
     void Update()
     {
-
         // Ô‚ÆŠø‚Ì‹——£(length) = Šø‚Ì‚˜À•W - Ô‚Ì‚˜À•W
         float width = 1.63f;
         float length = flag.transform.position.x - car.transform.position.x - width;
