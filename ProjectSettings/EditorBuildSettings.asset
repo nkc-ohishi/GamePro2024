@@ -6,10 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/SwipeCar/Scenes/TitleScene.unity
-    guid: b0a783e08102fcf42a7f0bf496d9ebf4
-  - enabled: 1
-    path: Assets/SwipeCar/Scenes/GameScene.unity
-    guid: e211b3a037eff9d4daf023f2843e1484
+    path: Assets/chapter05/chapter05.unity
+    guid: 03dc46412fe97a34392760a221ac9d2f
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

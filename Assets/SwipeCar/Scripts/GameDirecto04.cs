@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 // 科目：ゲームプログラミング１年
 // 内容：４章 SwipeCar GameDirectorスクリプト
-// 担当：Ken.D.Ohishi 2024.05.10
+// 担当：Ken.D.Ohishi 2024.05.23
 //----------------------------------------------------------------------------
 using System.Collections;
 using System.Collections.Generic;
@@ -68,7 +68,6 @@ public class GameDirector04 : MonoBehaviour
             // 車と旗の距離が０以上（車が旗の右にいる）の時の処理
             // TextMeshProUGUIコンポーネントのtextの文字を更新する
             textMeshPro.text = "Distance:" + length.ToString("F2") + "m";
-
         }
         else
         {
@@ -110,8 +109,5 @@ public class GameDirector04 : MonoBehaviour
         {
             SceneManager.LoadScene("GameScene");
         }
-
-
-
     }
 }
