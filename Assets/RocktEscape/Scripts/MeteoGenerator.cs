@@ -16,6 +16,8 @@ public class MeteoGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameDirectorRocket.playState > 0) return;
+
         delta += Time.deltaTime;
 
         // span•b–ˆ‚Éˆ—‚ğs‚¤

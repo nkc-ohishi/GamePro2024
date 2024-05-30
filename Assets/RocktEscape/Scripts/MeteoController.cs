@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class MeteoController : MonoBehaviour
 {
+    public AudioClip se;
+    Transform cam;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        // カメラオブジェクトのトランスフォームコンポーネントを取得
+        cam = Camera.main.transform;
     }
 
     // Update is called once per frame
@@ -25,9 +29,11 @@ public class MeteoController : MonoBehaviour
         // 制限時間を１０秒減らす
         GameDirectorRocket.lastTime -= 10;
 
+        // 効果音を鳴らす（オーディオリスナー＝カメラの位置で再生）
+        AudioSource.PlayClipAtPoint(se, cam.position);
+
         // 隕石に何かのオブジェクトが重なったら、隕石を削除
         Destroy(gameObject);
-
     }
 
 }
