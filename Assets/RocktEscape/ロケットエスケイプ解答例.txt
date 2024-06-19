@@ -1,0 +1,228 @@
+//----------------------------------------------------------------------------
+// 科目：ゲームプログラミング１年
+// 内容：課題 RocketEscape 解答例
+// 担当：Ken.D.Ohishi 2024.06.17
+//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
+// ゲームディレクターロケット
+//----------------------------------------------------------------------------
+public class GameDirectorRocket : MonoBehaviour
+{
+    public Image img;				// シーン切り替え用 UI-Image
+    public Text kyoriLabel;			// 距離表示用テキスト
+    public Text resultLabel;		// ゲームオーバー表示用テキスト
+    float kyori;					// 進んだ距離計測用
+    public Image timeGauge;			// 経過時間表示用 UI-Image
+    public static float lastTime;	// 残り時間
+    public static int playState;	// ゲームシーンの状態を保存
+
+    void Start()
+    {
+    	// 各種変数初期化
+        kyori     = 0;
+        lastTime  = 100;
+        playState = 0;
+        img.fillAmount = 0;
+        resultLabel.text = "";
+    }
+
+    void Update()
+    {
+    	// ゲームオーバー後の処理
+        if (playState == 1)
+        {
+            resultLabel.text = "Game Over !!";	// ゲームオーバー表示
+            GetComponent<AudioSource>().Stop();	// BGM止める
+
+            // 残り時間が０になった後、Enterキーが押されると、切り替え演出
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                playState = 2;
+            }
+        }
+        else if (playState == 2)
+        {
+            // 塗りつぶし係数を増やしてUI-Image画像を表示
+            img.fillAmount += Time.deltaTime;
+
+            // 画像が全部表示されたらスイッチOFFにしてシーンをリロード
+            if (img.fillAmount >= 1f)
+            {
+                SceneManager.LoadScene("TitleScene");
+            }
+        }
+
+        // ゲームオーバー後は時間計測を止める
+        if (playState > 0) return;
+
+        kyori += Time.deltaTime;
+        kyoriLabel.text = kyori.ToString("000.00") + "km";
+
+        // 制限時間を減らす処理
+        lastTime -= Time.deltaTime;
+        timeGauge.fillAmount = lastTime / 100f;
+
+        // 制限時間が０より小さくなったら処理をUIの更新を止める
+        if(lastTime < 0)
+        {
+            playState = 1;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//----------------------------------------------------------------------------
+// タイトルディレクター
+//----------------------------------------------------------------------------
+public class TitleDirectorRocket : MonoBehaviour
+{
+    public Image img;	// シーン切り替え用 UI-Image
+    bool sw = false;	// シーン切り替えスタートスイッチ
+
+    void Start()
+    {
+        img.fillAmount = 0;
+        sw = false;
+    }
+
+    void Update()
+    {
+    	// エンターキーが押されたらスイッチON
+        if(Input.GetKeyDown(KeyCode.Return))
+        {
+            sw = true;
+        }
+		
+		// スイッチがONになったら、シーン切り替え開始
+        if(sw)
+        {
+            img.fillAmount += Time.deltaTime;
+            if (img.fillAmount >= 1f)
+            {
+                SceneManager.LoadScene("GameScene");
+            }
+        }
+    }
+}
+//----------------------------------------------------------------------------
+// メテオコントローラー
+//----------------------------------------------------------------------------
+public class MeteoController : MonoBehaviour
+{
+    public AudioClip se;			// 効果音源(mp3等)を保存
+    Transform cam;					// カメラのトランスフォームコンポーネント保存
+
+    void Start()
+    {
+        // カメラオブジェクトのトランスフォームコンポーネントを取得
+        cam = Camera.main.transform;
+    }
+
+    void Update()
+    {
+        float speed = 5;            // 移動速度を保存する変数
+        Vector3 dir = Vector3.left;  // 移動方向を保存する変数
+        transform.position += dir.normalized * speed * Time.deltaTime;
+    }
+
+    // 当たり判定処理
+    // (ロケットにRigidbody2DとBoxCollider2D,メテオにBoxCollider2D&isTrigger）
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        // 制限時間を１０秒減らす
+        GameDirectorRocket.lastTime -= 10;
+
+        // 効果音を鳴らす（オーディオリスナー＝カメラの位置で再生）
+        AudioSource.PlayClipAtPoint(se, cam.position);
+
+        // 隕石に何かのオブジェクトが重なったら、隕石を削除
+        Destroy(gameObject);
+    }
+}
+//----------------------------------------------------------------------------
+// メテオジェネレーター
+//----------------------------------------------------------------------------
+public class MeteoGenerator : MonoBehaviour
+{
+    public GameObject meteoPre; // 隕石のプレハブを保存する変数
+    float span = 1;             // 隕石を出す間隔（秒）
+    float delta = 0;            // 時間計算用変数
+
+    void Update()
+    {
+    	// ゲームオーバー後はメテオ生成しない
+        if (GameDirectorRocket.playState > 0) return;
+
+        delta += Time.deltaTime;
+
+        // span秒毎に処理を行う
+        if(delta > span)
+        {
+            delta = 0; // 時間計算用変数を０にする
+            // 隕石のプレハブをヒエラルキーに登場させる
+            GameObject go = Instantiate(meteoPre);
+            int py = Random.Range(-6, 7);
+            go.transform.position = new Vector3(10, py, 0);
+        }
+    }
+}
+//----------------------------------------------------------------------------
+// ロケットコントローラー
+//----------------------------------------------------------------------------
+public class RocketController : MonoBehaviour
+{
+    float speed = 10;           // 移動速度を保存する変数
+    Vector3 dir = Vector3.zero; // 移動方向を保存する変数
+    Vector2 lb;         		// 画面左下のワールド座標を保存
+    Vector2 ru;         		// 画面右上のワールド座標を保存
+    Vector2 screenSize; 		// 画面の幅と高さを保存
+
+    void Start()
+    {
+        // 画面の幅と高さ
+        screenSize = new Vector2(Screen.width, Screen.height);
+        // 画面の左下のワールド座標
+        lb = Camera.main.ScreenToWorldPoint(Vector2.zero);
+        // 画面右上のワールド座標
+        ru = Camera.main.ScreenToWorldPoint(screenSize);
+    }
+
+    void Update()
+    {
+    	// ゲームオーバー後はロケットを動かせない
+        if (GameDirectorRocket.playState > 0) return;
+
+        // 上下左右移動
+        dir.x = Input.GetAxisRaw("Horizontal");
+        dir.y = Input.GetAxisRaw("Vertical");
+        transform.position += dir.normalized * speed * Time.deltaTime;
+
+        // 移動制限
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Clamp(pos.x, lb.x, ru.x);
+        pos.y = Mathf.Clamp(pos.y, lb.y, ru.y);
+        transform.position = pos;
+    }
+}
