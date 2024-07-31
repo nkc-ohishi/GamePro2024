@@ -16,9 +16,9 @@ public class TitleLogoController06 : MonoBehaviour
 
     void Start()
     {
-        image = gameObject.GetComponent<Image>(); //　Textコンポーネントを取得
-        speed = START_SPEED;                    // スピードの初期値設定
-        speedUpFlg = false;                     // スピードアップフラグOFF
+        image = gameObject.GetComponent<Image>();   //　Textコンポーネントを取得
+        speed = START_SPEED;                        // スピードの初期値設定
+        speedUpFlg = false;                         // スピードアップフラグOFF
     }
 
     void Update()
@@ -26,7 +26,7 @@ public class TitleLogoController06 : MonoBehaviour
         //オブジェクトのAlpha値を更新
         image.color = GetAlphaColor(image.color);
 
-        // エンターキーが押された後は点滅速度を赤い彗星にする
+        // エンターキーが押された後はフェード速度を早くする
         if (Input.GetKeyDown(KeyCode.Return))
         {
             speedUpFlg = true;
@@ -34,12 +34,9 @@ public class TitleLogoController06 : MonoBehaviour
             time = 0f;
         }
 
-        // エンターキーが押されてからSPEEDUP_TIME秒たったら点滅速度を戻す
+        // エンターキーが押されてからSPEEDUP_TIME秒たったらシーン遷移
         if (speedUpFlg && (time / speed) >= SPEEDUP_TIME)
         {
-            speedUpFlg = false;
-            speed = 5f;
-            time = 0f;
             SceneManager.LoadScene(1);
         }
     }
@@ -50,6 +47,7 @@ public class TitleLogoController06 : MonoBehaviour
         time += Time.deltaTime * speed;
         // アルファ値を 0.0～1.0の範囲で循環させる
         color.a = Mathf.Sin(time) * 0.5f + 0.5f;
+
         return color;
     }
 

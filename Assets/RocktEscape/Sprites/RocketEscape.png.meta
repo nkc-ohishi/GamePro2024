@@ -152,7 +152,9 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      RocketEscape_0: -8083330112694368696
+      RocketEscape_1: -7322989706558728804
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

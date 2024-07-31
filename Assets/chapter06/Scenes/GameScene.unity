@@ -1491,6 +1491,7 @@ MonoBehaviour:
   speed: 5
   jumpPower: 1500
   jumpSe: {fileID: 8300000, guid: 41732d6961dce2d418ea27658535f859, type: 3}
+  coinSe: {fileID: 8300000, guid: 1d01c6a98b8b43347b505cf217afbf39, type: 3}
 --- !u!81 &597738647
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1734,7 +1735,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 6dd9cb53a88249f4699266b59246ccfe, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ee41ac906898fdf40bb9a5c9aab9c91f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -3148,9 +3149,9 @@ Canvas:
   m_GameObject: {fileID: 1269834273}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 408131479}
+  m_PlaneDistance: 10
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -3160,7 +3161,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!224 &1269834277
 RectTransform:

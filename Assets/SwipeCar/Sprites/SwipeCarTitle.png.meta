@@ -152,7 +152,9 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SwipeCarTitle_0: -3682886619551129235
+      SwipeCarTitle_1: -1230110322750434140
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

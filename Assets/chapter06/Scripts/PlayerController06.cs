@@ -26,6 +26,8 @@ public class PlayerController06 : MonoBehaviour
     int cnt = 0;
 
     public AudioClip jumpSe;
+    public AudioClip coinSe;
+
 
     void Start()
     {
@@ -111,6 +113,13 @@ public class PlayerController06 : MonoBehaviour
         {
             anim.Play("PlayerDie");
             GameDirector06.gameState = 2;
+        }
+
+        if (collision.tag == "Coin")
+        {
+            GameDirector06.coinCnt++;
+            AudioSource.PlayClipAtPoint(coinSe, transform.position);
+            Destroy(collision.gameObject);
         }
     }
 }

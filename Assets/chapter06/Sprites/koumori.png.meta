@@ -392,7 +392,19 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      koumori_0: 5387105872527798449
+      koumori_1: -9153357927685300965
+      koumori_10: -8773484991524234197
+      koumori_11: -1161736665707948650
+      koumori_2: -3737486086908425320
+      koumori_3: -7949763957468583997
+      koumori_4: -8371958846951014387
+      koumori_5: 7812950724588108636
+      koumori_6: 4341909316382396325
+      koumori_7: -7218880773759478432
+      koumori_8: 1319360444492340313
+      koumori_9: -1553229919521047263
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
