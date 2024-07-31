@@ -6,10 +6,11 @@
 //------------------------------------------------------------------------------
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Chapter06Controller : MonoBehaviour
+public class PlayerController06 : MonoBehaviour
 {
     Rigidbody2D rb2d;        // リジッドボディ２Ⅾコンポーネント保存用
     public float speed;      // 左右の移動速度（UnityEditorで設定 5）
@@ -24,6 +25,8 @@ public class Chapter06Controller : MonoBehaviour
 
     int cnt = 0;
 
+    public AudioClip jumpSe;
+
     void Start()
     {
         startPos = Vector3.zero;
@@ -36,12 +39,6 @@ public class Chapter06Controller : MonoBehaviour
 
     void Update()
     {
-        //リスタートボタン
-        if(Input.GetKeyDown(KeyCode.Return))
-        {
-            SceneManager.LoadScene(0);
-        }
-
         // 即死ボタン「４」
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
@@ -54,6 +51,8 @@ public class Chapter06Controller : MonoBehaviour
             anim.Play("PlayerDie");
             return;
         }
+
+        if (GameDirector06.gameState >= 1) return;
 
         // 左右入力
         inputLR = Input.GetAxisRaw("Horizontal");
@@ -72,7 +71,7 @@ public class Chapter06Controller : MonoBehaviour
         }
 
         // ジャンプ
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z) && rb2d.velocity.y == 0)
         {
             inputJump = true;
         }
@@ -95,8 +94,23 @@ public class Chapter06Controller : MonoBehaviour
 
         if (inputJump)
         {
+            AudioSource.PlayClipAtPoint(jumpSe, transform.position);
             rb2d.AddForce(Vector2.up * jumpPower);
             inputJump = false;
+        }
+
+        if(GameDirector06.gameState >= 1)
+        {
+            rb2d.velocity = Vector2.zero;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Enemy")
+        {
+            anim.Play("PlayerDie");
+            GameDirector06.gameState = 2;
         }
     }
 }
