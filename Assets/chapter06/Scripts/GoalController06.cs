@@ -9,7 +9,7 @@ public class GoalController06 : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            if(GameDirector06.coinCnt >= 1)
+            if(GameDirector06.coinCnt >= 10)
             {
                 GameDirector06.gameState = 1;
             }
